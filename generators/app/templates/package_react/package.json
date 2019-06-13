@@ -16,8 +16,8 @@
         "build": "webpack --config tools/webpack.config.js"
     },
     "keywords": [
-        "learnta",
-        "taskcard",
+        "package",
+        "react",
         "storybook"
     ],
     "browserslist": [

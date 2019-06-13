@@ -51,7 +51,7 @@ class LG extends Generator {
 
     install() {
         this.destinationRoot(`./${this.fullname}`);
-        this.npmInstall();
+        // this.npmInstall();
     }
 }
 
