@@ -5,9 +5,6 @@
     "main": "build/lib/index.js",
     "modules": "dist/learnta-taskcard.min.js",
     "types": "dist/index.d.ts",
-    "files": [
-        "dist"
-    ],
     "scripts": {
         "test": "jest --coverage",
         "styletest": "backstop test",

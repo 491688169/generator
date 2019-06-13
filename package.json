@@ -1,7 +1,8 @@
 {
     "name": "generator-learnta",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "",
+    "homepage": "https://code.learnta.cn/projects/LTA/repos/generator-learnta/browse",
     "files": [
         "generators"
     ],
@@ -12,7 +13,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "",
+    "author": "qianjin<491688169@qq.com>",
     "license": "ISC",
     "dependencies": {
         "yeoman-generator": "^4.0.1"
