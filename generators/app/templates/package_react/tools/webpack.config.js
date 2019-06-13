@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const srcPath = path.join(__dirname, '..', 'src');
 const enrtyPath = path.join(srcPath, 'index.ts');
@@ -13,15 +14,16 @@ module.exports = {
         library: 'taskcard',
         libraryTarget: 'umd',
     },
-    externals: {
-        React: 'react',
-        ReactDOM: 'react-dom',
-        PropTypes: 'prop-types',
-        Antd: 'antd',
-    },
     resolve: {
         extensions: ['.js', '.ts', '.tsx'],
     },
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+        }),
+    ],
     module: {
         rules: [
             {
@@ -49,6 +51,10 @@ module.exports = {
                         },
                     },
                 ],
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.s(a|c)ss$/,

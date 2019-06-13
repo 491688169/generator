@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = ({ config }) => {
     config.module.rules = config.module.rules.concat(
         {
@@ -17,6 +19,10 @@ module.exports = ({ config }) => {
                     loader: require.resolve('react-docgen-typescript-loader'),
                 },
             ],
+        },
+        {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader'],
         },
         {
             test: /\.s(a|c)ss$/,
@@ -57,6 +63,13 @@ module.exports = ({ config }) => {
         }
     );
     config.resolve.extensions.push('.ts', '.tsx');
+    config.plugins.push(
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+        })
+    );
     config.externals = {
         ...config.externals,
         jsdom: 'window',
