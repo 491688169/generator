@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const Generator = require('yeoman-generator');
 
-const { TYPES } = require('../consts');
+const { TYPES } = require('../constants');
 
 class AC extends Generator {
     async initializing() {
