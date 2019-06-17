@@ -1,0 +1,5 @@
+node_module/
+src/static/
+docs/
+dist/
+*.md
