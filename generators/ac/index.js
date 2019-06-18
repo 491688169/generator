@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const chalk = require('chalk');
 
 const Generator = require('yeoman-generator');
 
@@ -7,14 +8,23 @@ const { TYPES } = require('../constants');
 
 class AC extends Generator {
     async initializing() {
-        this.log('initializing');
-        const { async: done } = this;
-        const { keywords } = await this.fs.readJSON('./package.json');
-        this.log('keywords', keywords);
-        if (!keywords) done();
-        if (includes(keywords, TYPES.PKG_REACT.keywords)) {
-            this.type = TYPES.PKG_REACT.value;
-            this.log('this.type ', this.type);
+        const done = this.async();
+        this.type = TYPES.PROD_REACT.value;
+        let keywords = undefined;
+        try {
+            keywords = (await this.fs.readJSON('./package.json')).keywords;
+        } catch (error) {
+            this.log(`${chalk.red(error)}`);
+        }
+        if (!keywords) return process.exit();
+        const TYPES_KEYS = Object.keys(TYPES);
+        for (let i = 0; i < TYPES_KEYS.length; i++) {
+            const generatorType = TYPES[TYPES_KEYS[i]];
+            if (includes(keywords, generatorType.keywords)) {
+                this.type = generatorType.value;
+                // break or continue 都会退出 generator command process
+                return done(); // 退出当前生命周期函数，进入下一个
+            }
         }
     }
 
@@ -30,54 +40,100 @@ class AC extends Generator {
                 },
             },
         ]);
+
+        this.answer = { name: this.answer.name.replace(/\s+/g, '') };
     }
 
     async writing() {
         const componentName = await this._checkIfExist();
-
-        if (this.type === TYPES.PKG_REACT.value) {
-            this.fs.copyTpl(
-                this.templatePath('./package_react/index.tsx'),
-                this.destinationPath(`./src/${componentName}/index.tsx`),
-                { componentName: initialCapital(componentName) }
-            );
-
-            this.fs.write(this.destinationPath(`./src/${componentName}/index.scss`), '');
-            this.fs.append(
-                this.destinationPath(`./src/index.ts`),
-                `export { default as ${initialCapital(
-                    componentName
-                )} } from './${componentName}/index';`
-            );
-            this.fs.copyTpl(
-                this.templatePath('./package_react/stories.tsx'),
-                this.destinationPath(`./stories/${componentName}.stories.tsx`),
-                { componentName: initialCapital(componentName) }
-            );
+        switch (this.type) {
+            case TYPES.PKG_REACT.value:
+                this._generatorPKG(componentName);
+                break;
+            case TYPES.PROD_REACT.value:
+                this._generatorPROD(componentName);
+                break;
+            default:
+                this._generatorPROD(componentName);
+                break;
         }
     }
 
+    _generatorPKG(componentName) {
+        this.fs.copyTpl(
+            this.templatePath('./package_react/index.tsx'),
+            this.destinationPath(`./src/${componentName}/index.tsx`),
+            { componentName: initialCapital(componentName) }
+        );
+
+        this.fs.write(this.destinationPath(`./src/${componentName}/index.scss`), '');
+        this.fs.append(
+            this.destinationPath(`./src/index.ts`),
+            `export { default as ${initialCapital(
+                componentName
+            )} } from './${componentName}/index';`
+        );
+        this.fs.copyTpl(
+            this.templatePath('./package_react/stories.tsx'),
+            this.destinationPath(`./stories/${componentName}.stories.tsx`),
+            { componentName: initialCapital(componentName) }
+        );
+    }
+
+    _generatorPROD(componentName) {
+        this.fs.copy(
+            this.templatePath('./product_react/static/'),
+            this.destinationPath(`./src/pages/${componentName}`)
+        );
+
+        this.fs.copyTpl(
+            this.templatePath('./product_react/dynamic/index.js'),
+            this.destinationPath(`./src/pages/${componentName}/index.js`),
+            { componentName }
+        );
+    }
+
     _checkIfExist() {
-        if (this.type === TYPES.PKG_REACT.value) {
-            const {
-                answer: { name },
-                async: done,
-            } = this;
+        const {
+            answer: { name },
+        } = this;
 
-            const filePath = path.join(this.destinationPath(), 'src', name);
+        const capitalComponentName = initialCapital(name);
 
-            return new Promise(resolve => {
-                fs.access(filePath, fs.constants.F_OK, err => {
-                    if (!err) {
-                        this.log('this component has been existed!');
-                        done();
-                    } else {
-                        this.log('start creating revelant files...');
-                        resolve(name);
-                    }
-                });
-            });
+        let filePath = path.join(this.destinationPath(), 'src/pages', capitalComponentName);
+
+        switch (this.type) {
+            case TYPES.PKG_REACT.value:
+                filePath = path.join(this.destinationPath(), 'src', name);
+                break;
+            case TYPES.PROD_REACT.value:
+                // filePath = path.join(this.destinationPath(), 'src/pages', name);
+                break;
+            default:
+                // filePath = path.join(this.destinationPath(), 'src/pages', name);
+                break;
         }
+
+        return new Promise(resolve => {
+            fs.access(filePath, fs.constants.F_OK, err => {
+                if (!err) {
+                    this.log(
+                        `\t ${chalk.red(
+                            'this component ' + capitalComponentName + ' has been existed!'
+                        )}`
+                    );
+                    return process.exit();
+                } else {
+                    resolve(capitalComponentName);
+                }
+            });
+        });
+    }
+
+    end() {
+        this.log(
+            `\t ${chalk.green('component ' + initialCapital(this.answer.name) + ' is finished')}`
+        );
     }
 }
 

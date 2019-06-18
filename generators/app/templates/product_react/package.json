@@ -7,6 +7,11 @@
   "repository": {
     "type": "git"
   },
+  "keywords": [
+    "product",
+    "react",
+    "admin"
+  ],
   "scripts": {
     "build:webpack": "cross-env NODE_ENV=prod node_modules/.bin/webpack",
     "build:dll:dev": "cross-env NODE_ENV=dev node_modules/.bin/webpack --config webpack.dll.config.js",
