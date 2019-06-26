@@ -9,7 +9,7 @@ const { TYPES } = require('../constants');
 class AC extends Generator {
     async initializing() {
         const done = this.async();
-        this.type = TYPES.PROD_REACT.value;
+        this.type = TYPES.PRODUCT_REACT.value;
         let keywords = undefined;
         try {
             keywords = (await this.fs.readJSON('./package.json')).keywords;
@@ -50,7 +50,7 @@ class AC extends Generator {
             case TYPES.PKG_REACT.value:
                 this._generatorPKG(componentName);
                 break;
-            case TYPES.PROD_REACT.value:
+            case TYPES.PRODUCT_REACT.value:
                 this._generatorPROD(componentName);
                 break;
             default:
@@ -106,11 +106,8 @@ class AC extends Generator {
             case TYPES.PKG_REACT.value:
                 filePath = path.join(this.destinationPath(), 'src', name);
                 break;
-            case TYPES.PROD_REACT.value:
-                // filePath = path.join(this.destinationPath(), 'src/pages', name);
-                break;
+            case TYPES.PRODUCT_REACT.value:
             default:
-                // filePath = path.join(this.destinationPath(), 'src/pages', name);
                 break;
         }
 
