@@ -6,40 +6,29 @@
             "experimentalObjectRestSpread": true
         }
     },
-    "extends": [
-        "airbnb",
-        "plugin:compat/recommended",
-        "plugin:prettier/recommended"
-    ],
+    "extends": ["airbnb", "plugin:compat/recommended", "plugin:prettier/recommended"],
     "env": {
         "browser": true,
         "node": true,
         "es6": true
     },
-    "plugins": [
-        "react",
-        "babel"
-    ],
+    "plugins": ["react", "babel"],
     "globals": {
         "React": true,
         "PropTypes": true,
         "$": true,
         "G": true,
-        "__ENV__":true,
+        "__ENV__": true,
         "__TARGET__": true,
         "__BACKEND__": true,
         "__FRONTEND__": true,
-        "__HOT__":true,
+        "__HOT__": true,
         "__DEV__": true,
         "__MOCK__": true,
         "__DEBUG__": true
     },
     "rules": {
-        "quotes": [
-            2,
-            "single",
-            "avoid-escape"
-        ],
+        "quotes": [2, "single", "avoid-escape"],
         "semi": 2,
         "semi-spacing": [
             2,
@@ -48,7 +37,7 @@
                 "after": true
             }
         ],
-        "prefer-destructuring":0,
+        "prefer-destructuring": 0,
         "global-require": 0,
         "import/no-dynamic-require": 0,
         "prettier/prettier": 0,
@@ -56,20 +45,12 @@
         "no-loop-func": 0,
         "no-use-before-define": 0,
         "no-underscore-dangle": 0,
-        "react/jsx-indent": [
-            0,
-            4
-        ],
-        "react/jsx-indent-props": [
-            0,
-            4
-        ],
+        "react/jsx-indent": [0, 4],
+        "react/jsx-indent-props": [0, 4],
         "react/jsx-filename-extension": [
             1,
             {
-                "extensions": [
-                    ".js"
-                ]
+                "extensions": [".js"]
             }
         ],
         "react/jsx-wrap-multilines": 0,
@@ -80,10 +61,7 @@
         "import/no-unresolved": [
             2,
             {
-                "ignore": [
-                    "^@/",
-                    "^umi/"
-                ]
+                "ignore": ["^@/", "^umi/"]
             }
         ],
         "import/no-extraneous-dependencies": [
@@ -106,13 +84,10 @@
             }
         ],
         "react/jsx-no-bind": 0,
-        "import/prefer-default-export":0
+        "import/prefer-default-export": 0
     },
     "settings": {
-        "polyfills": [
-            "fetch",
-            "Promise"
-        ],
+        "polyfills": ["fetch", "Promise", "Set"],
         "import/resolver": {
             "webpack": {
                 "config": "webpack.config.js"

@@ -7,7 +7,14 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
-    <title>Ant Design Pro</title>
+    <title>Learnta Project</title>
+    <link href="/static/redactor/redactor.css" rel="stylesheet" >
+    <link href="/static/redactor/redactor_alignment.css" rel="stylesheet" >
+    <link href="/static/mathquill/mathquill.css" rel="stylesheet" >
+    <link href="/static/qingyou_math.css" rel="stylesheet" >
+    <% for(var i=0; i < htmlWebpackPlugin.files.css.length; i++) {%>
+        <link href="<%= htmlWebpackPlugin.files.css[i] %>" rel="stylesheet" >
+    <% } %>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head> 
   <body>
@@ -164,6 +171,10 @@
         </div>
       </div>
     </div>
+
+    <% for(var i=0; i < htmlWebpackPlugin.files.js.length; i++) {%>
+      <script src="<%= htmlWebpackPlugin.files.js[i] %>"></script>
+    <% } %>
     
     <% if (htmlWebpackPlugin.options.__DEBUG__ === 'true') { %>
                 <script type="text/javascript" src="https://frontend-alioss.learnta.com/staSrc/eruda.1.5.2.min.js"></script>
@@ -179,6 +190,11 @@
         <script>
             console.log = function() {}
         </script>
-    <% } %> 
+    <% } %>
+
+    <%# 数学公式渲染脚本 %>
+    <%- include ../templates/mathRender.ejs -%>
+    <%# redactor富文本编辑器 %>
+    <%- include ../templates/redactor.ejs -%>
   </body>
 </html>

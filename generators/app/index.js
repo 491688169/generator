@@ -65,13 +65,6 @@ class LG extends Generator {
         } = this;
         switch (type) {
             case 'package':
-                this.log(`
-                \n
-                    ${chalk.green('Please go on!')}
-                \n
-                    ${chalk.green('cd ' + this.fullname)}
-                \n
-                `);
                 break;
             case 'product':
                 this._productEntryLog();
@@ -80,6 +73,17 @@ class LG extends Generator {
                 this._productEntryLog();
                 break;
         }
+    }
+
+    _PKGEntryLog() {
+        this.log(`
+        \n
+            ${chalk.green('Please go on!')}
+        \n
+            ${chalk.green('cd ' + this.fullname)}
+            ${chalk.green('npm run storybook')}
+        \n
+        `);
     }
 
     _productEntryLog() {

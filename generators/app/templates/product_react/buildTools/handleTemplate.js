@@ -1,6 +1,6 @@
 // 基于html-webpack-plugin
 // https://github.com/jantimon/html-webpack-plugin
-/* eslint-disable */
+
 const { execSync } = require('child_process');
 const fs = require('fs');
 
@@ -9,6 +9,7 @@ const manifest = require('../src/static/manifest_custom.json');
 
 const env = require('../env');
 
+/* eslint-disable */
 class HandleTemplate {
     apply(compiler) {
         compiler.hooks.compilation.tap('HandleTemplate', compilation => {
@@ -45,6 +46,7 @@ class HandleTemplate {
         });
     }
 }
+/* eslint-disable */
 
 function copyFile(filePath, targetFilename) {
     const fileToArr = filePath.split('/');

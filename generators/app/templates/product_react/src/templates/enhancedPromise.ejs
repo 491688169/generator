@@ -1,0 +1,23 @@
+<script type="text/javascript">
+    // TODO: Material V3.0 删除后测试这段是否有用
+    Promise.prototype.finally = function(callback) {
+        let P = this.constructor;
+        return this.then(
+            function(value) {
+                return P.resolve(callback()).then(function() {
+                    return value;
+                });
+            },
+            function(reason) {
+                return P.resolve(callback()).then(function() {
+                    throw reason;
+                });
+            }
+        );
+    };
+    Promise.try = function(fn) {
+        return new Promise(function(resolve, reject) {
+            resolve(fn());
+        });
+    };
+</script>

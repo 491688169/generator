@@ -1,0 +1,15 @@
+<script>
+    if ("serviceWorker" in navigator) {
+        console.log('serviceWorkder')
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('./static/serviceWorker.js', {scope: "./"})
+            .then(function(resistration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(function(err) {
+                console.log('ServiceWorker registration failed: ', err);
+            })
+        })
+    }
+</script>
+    

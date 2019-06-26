@@ -39,27 +39,34 @@ class AC extends Generator {
                     return true;
                 },
             },
+            {
+                type: 'list',
+                name: 'type',
+                message: 'for a package or a product?',
+                choices: ['pages', 'components'],
+                default: 'pages',
+            },
         ]);
 
-        this.answer = { name: this.answer.name.replace(/\s+/g, '') };
+        this.answer = { ...this.answer, name: this.answer.name.replace(/\s+/g, '') };
     }
 
     async writing() {
         const componentName = await this._checkIfExist();
         switch (this.type) {
             case TYPES.PKG_REACT.value:
-                this._generatorPKG(componentName);
+                this._generatorPKGComponent(componentName);
                 break;
             case TYPES.PRODUCT_REACT.value:
-                this._generatorPROD(componentName);
+                this._generatorProductComponent(componentName);
                 break;
             default:
-                this._generatorPROD(componentName);
+                this._generatorProductComponent(componentName);
                 break;
         }
     }
 
-    _generatorPKG(componentName) {
+    _generatorPKGComponent(componentName) {
         this.fs.copyTpl(
             this.templatePath('./package_react/index.tsx'),
             this.destinationPath(`./src/${componentName}/index.tsx`),
@@ -80,15 +87,15 @@ class AC extends Generator {
         );
     }
 
-    _generatorPROD(componentName) {
+    _generatorProductComponent(componentName) {
         this.fs.copy(
             this.templatePath('./product_react/static/'),
-            this.destinationPath(`./src/pages/${componentName}`)
+            this.destinationPath(`./src/${this.answer.type}/${componentName}`)
         );
 
         this.fs.copyTpl(
-            this.templatePath('./product_react/dynamic/index.js'),
-            this.destinationPath(`./src/pages/${componentName}/index.js`),
+            this.templatePath('./product_react/index.js.ejs'),
+            this.destinationPath(`./src/${this.answer.type}/${componentName}/index.js`),
             { componentName }
         );
     }
@@ -100,7 +107,11 @@ class AC extends Generator {
 
         const capitalComponentName = initialCapital(name);
 
-        let filePath = path.join(this.destinationPath(), 'src/pages', capitalComponentName);
+        let filePath = path.join(
+            this.destinationPath(),
+            `src/${this.answer.type}`,
+            capitalComponentName
+        );
 
         switch (this.type) {
             case TYPES.PKG_REACT.value:

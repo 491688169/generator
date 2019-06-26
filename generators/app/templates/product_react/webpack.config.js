@@ -5,8 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const HashOutput = require('webpack-plugin-hash-output');
+const apiMocker = require('webpack-api-mocker');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HappyPack = require('happypack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const autoprefixer = require('autoprefixer');
@@ -34,6 +35,8 @@ const dllManifest = env.DEV
     ? require('./src/static/dll/manifest.dll.dev.json')
     : require('./src/static/dll/manifest.dll.prod.json');
 
+const mocker = path.resolve('./src/configs/mocker');
+
 const cdnUrl = uploadrc.url;
 const rootDir = path.resolve(__dirname);
 const distDir = path.join(rootDir, 'dist');
@@ -55,14 +58,14 @@ const wp = {
               'webpack/hot/only-dev-server',
               productEntry,
           ]
-        : ['@babel/polyfill', productEntry],
+        : [productEntry],
     output: {
         filename: env.DEV ? '[name].js' : '[name]-[chunkhash:8].js',
         publicPath: env.DEV ? env.FRONTEND : `${cdnUrl}/staSrc/${env.PRODUCT}/${env.TARGET}/`,
         path: distDir,
         chunkFilename: '[name].[chunkhash:8].js',
     },
-    devtool: env.DEV && 'source-map',
+    devtool: env.DEV ? 'cheap-module-eval-source-map' : 'cheap-module-source-map',
     resolve: {
         extensions: ['.js', '.json'],
         alias: {
@@ -72,6 +75,7 @@ const wp = {
             $scripts: path.join(srcDir, 'scripts'),
             $configs: path.join(srcDir, 'configs'),
             $models: path.join(srcDir, 'models'),
+            $styles: path.join(srcDir, 'styles'),
         },
     },
     cache: env.DEV,
@@ -115,6 +119,7 @@ const wp = {
         runtimeChunk: {
             name: 'manifest',
         },
+        usedExports: true,
     },
     module: {
         rules: [
@@ -140,9 +145,10 @@ const wp = {
                     {
                         loader: 'css-loader',
                         options: {
+                            modules: {
+                                localIdentName: '[name]-[local]-[hash:base64:6]',
+                            },
                             sourceMap: true,
-                            modules: true,
-                            localIdentName: '[name]-[local]-[hash:base64:6]',
                         },
                     },
                     {
@@ -155,11 +161,7 @@ const wp = {
                             sourceMap: true,
                             ident: 'postcss',
                             parser: 'postcss-scss',
-                            plugins: () => [
-                                autoprefixer({
-                                    browsers: ['last 10 version', 'ie >= 10'],
-                                }),
-                            ],
+                            plugins: () => [autoprefixer()],
                         },
                     },
                 ],
@@ -188,6 +190,10 @@ const wp = {
         ],
     },
     plugins: [
+        new CleanWebpackPlugin(),
+        // css变化时不会影响js的hash，参看hash,chunkhash,contenthash的区别
+        // 这个必须为plugins的第一个
+        new HashOutput(),
         new HappyPack({
             // 用唯一的标识符 id 来代表当前的 HappyPack 是用来处理一类特定的文件
             id: 'js',
@@ -213,14 +219,13 @@ const wp = {
             threadPool: happyThreadPool,
             // ... 其它配置项
         }),
-        // Since webpack v4 the extract-text-webpack-plugin should not be used for css. Use mini-css-extract-plugin instead.
         new MiniCssExtractPlugin({
             filename: env.DEV ? '[name].css' : '[name].[hash].css',
             chunkFilename: env.DEV ? '[id].css' : '[id].[hash].css',
         }),
         new HtmlWebpackPlugin({
             template: path.resolve(productDir, 'index.ejs'),
-            inject: true,
+            inject: false,
             hash: !env.DEV,
             ...envVariables,
         }),
@@ -229,7 +234,6 @@ const wp = {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
-            'window.jQuery': 'jquery',
             React: 'react',
             ReactDOM: 'react-dom',
         }),
@@ -238,9 +242,6 @@ const wp = {
             context: __dirname,
             manifest: dllManifest,
         }),
-        // css变化时不会影响js的hash，参看hash,chunkhash,contenthash的区别
-        // new WebpackMd5Hash(),
-        new HashOutput(),
         new ManifestPlugin(),
         new CopyWebpackPlugin([
             {
@@ -249,7 +250,6 @@ const wp = {
                 flatten: true,
             },
         ]),
-        new CleanWebpackPlugin(),
         new AddAssetHtmlPlugin(
             env.DEV
                 ? {
@@ -259,7 +259,6 @@ const wp = {
                       filepath: path.join(staticDir, 'dll', 'dll.vendor.*.prod.js'),
                   }
         ),
-        // env.DEV && env.HTTPS ? () => {} : new OfflinePlugin(),
     ],
     devServer: {
         // publicPath: 'http://127.0.0.1:8000/', // bundle.js来源
@@ -275,6 +274,9 @@ const wp = {
         open: true,
         stats: { color: true },
         overlay: true, // 报错时会在浏览器全屏弹出
+        before(app) {
+            apiMocker(app, mocker);
+        },
         headers: {
             'Service-Worker-Allowed': '/',
         },
@@ -314,6 +316,7 @@ const wp = {
                         opt = proxySwitch(flag);
                         url = url.replace('/mock', `/mock${opt.mock}`);
                         if (!opt.target) opt.target = 'https://yapi.learnta.cn';
+                        console.log(`http proxy: ${opt.target}${url}`);
                         return opt.target + url;
                     }
                     url = url.replace(`/${RegExp.$1}`, opt.base);
@@ -342,11 +345,12 @@ function proxySwitch(flag) {
         case 'fo':
             base = '/fo/rest';
             mock = '/24';
-            break;
+            break; // 做题端
         case 'admin':
             base = '/admin';
             mock = '/28';
             break; // 后台
+        // case '3': port = TASK_PORT; base = '/beat'; break // 任务卡
         case 'tarzan':
             base = '/tarzan';
             mock = '/32';
