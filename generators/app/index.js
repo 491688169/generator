@@ -1,5 +1,8 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
+const { execSync } = require('child_process');
+const fs = require('fs');
+const mkdirp = require('mkdirp');
 
 class LG extends Generator {
     async prompting() {
@@ -44,7 +47,14 @@ class LG extends Generator {
                 break;
         }
         this.fullname = fullname;
-        this.log(`package name is ${fullname}`);
+        const ifExist = fs.existsSync(`${fullname}`);
+        if (ifExist) {
+            this.log(`${chalk.red(fullname + ' ' + type + ' 已存在')}`);
+            return process.exit();
+        }
+        this.log(`${type} name is ${fullname}`);
+
+        mkdirp.sync(`${fullname}`);
         this.fs.copy(this.templatePath(templatePath), this.destinationPath(`./${fullname}`), {
             globOptions: { dot: true },
         });
@@ -65,36 +75,37 @@ class LG extends Generator {
         } = this;
         switch (type) {
             case 'package':
+                this._entryLog('npm run storybook');
                 break;
             case 'product':
-                this._productEntryLog();
+                this._entryLog('node bin dev');
                 break;
             default:
-                this._productEntryLog();
+                this._entryLog('node bin dev');
                 break;
         }
     }
 
-    _PKGEntryLog() {
+    _entryLog(startCommand) {
         this.log(`
-        \n
-            ${chalk.green('Please go on!')}
-        \n
-            ${chalk.green('cd ' + this.fullname)}
-            ${chalk.green('npm run storybook')}
-        \n
+            \n
+                ${chalk.green(`cd ${this.fullname}`)}
+                ${chalk.green(startCommand)}
+            \n
         `);
-    }
-
-    _productEntryLog() {
-        this.log(`
-        \n
-            ${chalk.green('Please go on!')}
-        \n
-            ${chalk.green('cd ' + this.fullname)}
-            ${chalk.green('node bin dev')}
-        \n
-        `);
+        // TODO:可能涉及进程相关知识，需要进一步处理
+        // execSync(`cd ${this.fullname}`, function(error, stdout, stderr) {
+        //     console.log('error', error);
+        //     if (error) {
+        //         return process.exit();
+        //     }
+        //     this.log(`
+        //     \n
+        //         ${chalk.green('Please go on!')}
+        //         ${chalk.green(startCommand)}
+        //     \n
+        //     `);
+        // });
     }
 }
 
