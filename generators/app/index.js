@@ -39,7 +39,6 @@ class LG extends Generator {
             case 'product':
                 fullname = `fe_${name}`;
                 templatePath = './product_react/';
-
                 break;
             default:
                 fullname = `fe_${name}`;
