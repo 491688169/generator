@@ -1,7 +1,7 @@
 {
     "name": "generator-learnta",
     "version": "0.0.4",
-    "description": "",
+    "description": "generator-learnta",
     "homepage": "https://code.learnta.cn/projects/LTA/repos/generator-learnta/browse",
     "files": [
         "generators"
