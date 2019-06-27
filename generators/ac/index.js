@@ -161,7 +161,7 @@ function includes(arr1, arr2) {
  * */
 
 function readAllFile(root, reg, negative) {
-    const resultArr = [];
+    let resultArr = [];
     const thisFn = arguments.callee;
     if (fs.existsSync(root)) {
         const stat = fs.lstatSync(root);
