@@ -1,14 +1,15 @@
 'use strict';
 const Generator = require('yeoman-generator');
-const chalk = require('chalk');
-const yosay = require('yosay');
+const { Conflicter, Adapter } = require('yeoman-merge-ui');
 
 module.exports = class extends Generator {
-    writing() {
-        this.fs.copy(this.templatePath('dummyfile.txt'), this.destinationPath('dummyfile.txt'));
+    constructor(args, opts) {
+        super(args, opts);
+        this.env.adapter = new Adapter();
+        this.conflicter = new Conflicter(this.env.adapter, this.options.force);
     }
 
-    install() {
-        this.installDependencies();
+    writing() {
+        this.fs.copy(this.templatePath('dummyfile.txt'), this.destinationPath('dummyfile.txt'));
     }
 };
