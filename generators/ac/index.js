@@ -13,10 +13,11 @@ class AC extends Generator {
         this.env.adapter = new Adapter();
         this.conflicter = new Conflicter(this.env.adapter, true);
     }
+
     async initializing() {
         const done = this.async();
         this.type = TYPES.PRODUCT_REACT.value;
-        let keywords = undefined;
+        let keywords;
         try {
             keywords = (await this.fs.readJSON('./package.json')).keywords;
         } catch (error) {
@@ -28,7 +29,7 @@ class AC extends Generator {
             const generatorType = TYPES[TYPES_KEYS[i]];
             if (includes(keywords, generatorType.keywords)) {
                 this.type = generatorType.value;
-                // break or continue 都会退出 generator command process
+                // Break or continue 都会退出 generator command process
                 return done(); // 退出当前生命周期函数，进入下一个
             }
         }
@@ -49,7 +50,7 @@ class AC extends Generator {
 
         switch (this.type) {
             case TYPES.PKG_REACT.value:
-                // TODO: 生成 pkg 的交互
+                // 生成 pkg 的交互 ...
                 break;
             case TYPES.PRODUCT_REACT.value:
                 prompts.push({
@@ -146,9 +147,8 @@ class AC extends Generator {
                         )}`
                     );
                     return process.exit();
-                } else {
-                    resolve(capitalComponentName);
                 }
+                resolve(capitalComponentName);
             });
         });
     }
