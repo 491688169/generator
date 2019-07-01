@@ -1,7 +1,7 @@
 'use strict';
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
-const { Conflicter, Adapter } = require('yeoman-merge-ui');
+const { Conflicter, Adapter } = require('henry-yo-merge');
 const { TYPES } = require('../constants');
 const { includes } = require('../utils');
 
