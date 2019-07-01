@@ -39,10 +39,10 @@ module.exports = class extends Generator {
                 this._syncPKG();
                 break;
             case TYPES.PRODUCT_REACT.value:
-                this._syncPROD();
+                this._syncPRODUCT();
                 break;
             default:
-                this._syncPROD();
+                this._syncPRODUCT();
                 break;
         }
     }
@@ -53,7 +53,7 @@ module.exports = class extends Generator {
         });
     }
 
-    _syncPROD() {
+    _syncPRODUCT() {
         this.fs.copy(this.templatePath('./product_react/'), this.destinationPath('./'), {
             globOptions: { dot: true },
         });
