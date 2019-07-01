@@ -18,6 +18,7 @@ class AC extends Generator {
         const done = this.async();
         this.type = TYPES.PRODUCT_REACT.value;
         let keywords = undefined;
+
         try {
             keywords = (await this.fs.readJSON('./package.json')).keywords;
         } catch (error) {
