@@ -1,13 +1,18 @@
 const path = require('path');
 const fs = require('fs');
 const chalk = require('chalk');
-
 const Generator = require('yeoman-generator');
 
-const { TYPES } = require('../constants');
+const { Conflicter, Adapter } = require('henry-yo-merge');
 const { includes, initialCapital, readAllFile } = require('../utils');
+const { TYPES } = require('../constants');
 
 class AC extends Generator {
+    constructor(args, opts) {
+        super(args, opts);
+        this.env.adapter = new Adapter();
+        this.conflicter = new Conflicter(this.env.adapter, true);
+    }
     async initializing() {
         const done = this.async();
         this.type = TYPES.PRODUCT_REACT.value;
@@ -30,7 +35,7 @@ class AC extends Generator {
     }
 
     async prompting() {
-        this.answer = await this.prompt([
+        const prompts = [
             {
                 type: 'input',
                 name: 'name',
@@ -40,14 +45,26 @@ class AC extends Generator {
                     return true;
                 },
             },
-            {
-                type: 'list',
-                name: 'type',
-                message: 'created in pages or components?',
-                choices: ['pages', 'components'],
-                default: 'pages',
-            },
-        ]);
+        ];
+
+        switch (this.type) {
+            case TYPES.PKG_REACT.value:
+                // TODO: 生成 pkg 的交互
+                break;
+            case TYPES.PRODUCT_REACT.value:
+                prompts.push({
+                    type: 'list',
+                    name: 'type',
+                    message: 'created in pages or components?',
+                    choices: ['pages', 'components'],
+                    default: 'pages',
+                });
+                break;
+            default:
+                break;
+        }
+
+        this.answer = await this.prompt(prompts);
 
         this.answer = { ...this.answer, name: this.answer.name.replace(/\s+/g, '') };
     }
