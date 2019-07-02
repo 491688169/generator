@@ -79,7 +79,7 @@
                 "required": true,
                 "allowed": [
                     "^[A-Z]-[0-9]$",
-                    "x"
+                    "y"
                 ],
                 "validate": true
             }
