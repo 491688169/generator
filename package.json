@@ -77,8 +77,7 @@
             "scope": {
                 "required": true,
                 "allowed": [
-                    "package-1",
-                    "package-2"
+                    "*"
                 ],
                 "validate": true,
                 "multiple": true
