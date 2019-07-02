@@ -51,7 +51,7 @@ class AC extends Generator {
 
         switch (this.type) {
             case TYPES.PKG_REACT.value:
-                // 生成 pkg 的交互 ...
+                // 生成 pkg 的交互 ... do something
                 break;
             case TYPES.PRODUCT_REACT.value:
                 prompts.push({
