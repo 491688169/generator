@@ -48,12 +48,14 @@ module.exports = class extends Generator {
     }
 
     _syncPKG() {
+        // do something
         this.fs.copy(this.templatePath('./package_react/'), this.destinationPath('./'), {
             globOptions: { dot: true },
         });
     }
 
     _syncPRODUCT() {
+        // do something
         this.fs.copy(this.templatePath('./product_react/'), this.destinationPath('./'), {
             globOptions: { dot: true },
         });
