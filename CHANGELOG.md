@@ -4,6 +4,7 @@
 ### Features
 
 * **component:** change content ([947e0f5](https://code.learnta.cn/scm/lta/generator-learnta/commits/947e0f5))
+* **component1:** change content1 ([54a6a01](https://code.learnta.cn/scm/lta/generator-learnta/commits/54a6a01))
 
 
 
