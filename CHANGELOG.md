@@ -7,6 +7,7 @@
 * **LL-683:** change content2 ([024f259](https://code.learnta.cn/scm/lta/generator-learnta/commits/024f259))
 * **LL-684:** change content3 ([941ab57](https://code.learnta.cn/scm/lta/generator-learnta/commits/941ab57))
 * **QA-0701:** change style bugs ([05f9550](https://code.learnta.cn/scm/lta/generator-learnta/commits/05f9550)), closes [#LL-683](https://code.learnta.cn/scm/lta/generator-learnta/issues/LL-683)
+* change content3 ([dc07662](https://code.learnta.cn/scm/lta/generator-learnta/commits/dc07662))
 * change content3 ([636c2e9](https://code.learnta.cn/scm/lta/generator-learnta/commits/636c2e9))
 * change content3 ([104c9c9](https://code.learnta.cn/scm/lta/generator-learnta/commits/104c9c9))
 * change content3 ([4b30d8b](https://code.learnta.cn/scm/lta/generator-learnta/commits/4b30d8b))
