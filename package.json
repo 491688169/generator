@@ -74,15 +74,23 @@
             "path": "./node_modules/cz-conventional-changelog"
         },
         "validate-commit-msg": {
-            "scope": {
-                "required": true,
-                "allowed": [
-                    "xxx",
-                    "^[A-Z]-[0-9]$"
-                ],
-                "validate": true,
-                "multiple": true
-            }
+            "scope": [
+                {
+                    "required": true,
+                    "allowed": [
+                        "^[A-Z]-[0-9]$",
+                        "yyy"
+                    ],
+                    "validate": true
+                },
+                {
+                    "required": true,
+                    "allowed": [
+                        "xxx"
+                    ],
+                    "validate": true
+                }
+            ]
         }
     }
 }
