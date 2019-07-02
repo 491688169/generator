@@ -78,7 +78,8 @@
             "scope": {
                 "required": true,
                 "allowed": [
-                    "^[A-Z]-[0-9]$"
+                    "^[A-Z]-[0-9]$",
+                    "zzz"
                 ],
                 "validate": true
             }
