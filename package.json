@@ -9,7 +9,7 @@
     "keywords": [
         "yeoman-generator"
     ],
-    "test": "3",
+    "test": "1",
     "main": "index.js",
     "author": "qianjin<491688169@qq.com>",
     "devDependencies": {
@@ -79,7 +79,7 @@
             "scope": {
                 "required": true,
                 "allowed": [
-                    "^[A-Z]-[0-9]$",
+                    "^[A-Z]+-[0-9]$",
                     "config",
                     "app",
                     "ac",
