@@ -9,7 +9,6 @@
     "keywords": [
         "yeoman-generator"
     ],
-    "test": "1",
     "main": "index.js",
     "author": "qianjin<491688169@qq.com>",
     "devDependencies": {
