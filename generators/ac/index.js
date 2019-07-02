@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const chalk = require('chalk');
 const Generator = require('yeoman-generator');
-
+const a = 0;
 const { Conflicter, Adapter } = require('henry-yo-merge');
 const { includes, initialCapital, readAllFile } = require('../utils');
 const { TYPES } = require('../constants');
