@@ -79,7 +79,7 @@
             "scope": {
                 "required": true,
                 "allowed": [
-                    "^[A-Z]+-[0-9]$",
+                    "^[A-Z]+-[0-9]+$",
                     "config",
                     "app",
                     "ac",
