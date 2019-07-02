@@ -30,7 +30,8 @@ class AC extends Generator {
             if (includes(keywords, generatorType.keywords)) {
                 this.type = generatorType.value;
                 // Break or continue 都会退出 generator command process
-                return done(); // 退出当前生命周期函数，进入下一个
+                // 退出当前生命周期函数，进入下一个
+                return done();
             }
         }
     }
