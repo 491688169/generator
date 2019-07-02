@@ -18,6 +18,7 @@ function includes(arr1, arr2) {
 
 function readAllFile(root, reg, negative) {
     let resultArr = [];
+    /* eslint-disable no-caller */
     const thisFn = arguments.callee;
     if (fs.existsSync(root)) {
         const stat = fs.lstatSync(root);
@@ -27,22 +28,16 @@ function readAllFile(root, reg, negative) {
                 const t = thisFn(root + '/' + file, reg, negative);
                 resultArr = resultArr.concat(t);
             });
-        } else {
-            if (reg !== undefined) {
-                if (typeof reg.test == 'function') {
-                    if (negative) {
-                        if (!reg.test(root)) {
-                            resultArr.push(root);
-                        }
-                    } else {
-                        if (reg.test(root)) {
-                            resultArr.push(root);
-                        }
-                    }
+        } else if (reg !== undefined) {
+            if (typeof reg.test === 'function') {
+                if (negative && !reg.test(root)) {
+                    resultArr.push(root);
+                } else if (reg.test(root)) {
+                    resultArr.push(root);
                 }
-            } else {
-                resultArr.push(root);
             }
+        } else {
+            resultArr.push(root);
         }
     }
 
