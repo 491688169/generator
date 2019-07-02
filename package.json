@@ -87,7 +87,7 @@
         },
         "henry-validate-commitmsg": {
             "scope": {
-                "required": false,
+                "required": true,
                 "allowed": [
                     "^[A-Z]+-[0-9]+$"
                 ],
