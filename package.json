@@ -86,7 +86,7 @@
                 {
                     "required": true,
                     "allowed": [
-                        "zzz"
+                        "xxx"
                     ],
                     "validate": true
                 }
