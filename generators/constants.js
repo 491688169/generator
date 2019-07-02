@@ -1,11 +1,11 @@
 const TYPES = {
     PKG_REACT: {
         value: 0,
-        keywords: ['package'],
+        keywords: ['package', 'react'],
     },
     PRODUCT_REACT: {
         value: 1,
-        keywords: ['product'],
+        keywords: ['product', 'react'],
     },
 };
 
