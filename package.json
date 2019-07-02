@@ -14,6 +14,7 @@
     "author": "qianjin<491688169@qq.com>",
     "devDependencies": {
         "commitizen": "^3.1.1",
+        "conventional-changelog": "^3.1.8",
         "cz-conventional-changelog": "^2.1.0",
         "eslint": "^5.16.0",
         "eslint-config-prettier": "^3.6.0",
@@ -87,14 +88,9 @@
         },
         "henry-validate-commitmsg": {
             "scope": {
-                "required": true,
+                "required": false,
                 "allowed": [
-                    "^[A-Z]+-[0-9]+$",
-                    "config",
-                    "app",
-                    "ac",
-                    "cs",
-                    "release"
+                    "^[A-Z]+-[0-9]+$"
                 ],
                 "validate": true
             }

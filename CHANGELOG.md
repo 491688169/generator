@@ -1,60 +1,4 @@
-# Changelog
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
-## 0.1.0 (2019-07-02)
-
-
-### Bug Fixes
-
-* **index.js:** change content1 ([196a0b7](https://code.learnta.cn///commit/196a0b7))
-* **LL-683:** change content2 ([024f259](https://code.learnta.cn///commit/024f259))
-* **LL-684:** change content3 ([941ab57](https://code.learnta.cn///commit/941ab57))
-* **QA-0701:** change style bugs ([05f9550](https://code.learnta.cn///commit/05f9550)), closes [#LL-683](https://code.learnta.cn///issues/LL-683)
-* change content3 ([dc07662](https://code.learnta.cn///commit/dc07662))
-* change content3 ([636c2e9](https://code.learnta.cn///commit/636c2e9))
-* change content3 ([104c9c9](https://code.learnta.cn///commit/104c9c9))
-* change content3 ([4b30d8b](https://code.learnta.cn///commit/4b30d8b))
-
-
-### Features
-
-* **change4:** change content3 ([1daae6d](https://code.learnta.cn///commit/1daae6d))
-* **component:** change content ([947e0f5](https://code.learnta.cn///commit/947e0f5))
-* **component1:** change content1 ([54a6a01](https://code.learnta.cn///commit/54a6a01))
-* **index.js:** change content1 ([1a54fac](https://code.learnta.cn///commit/1a54fac))
-* **package-1:** change content3 ([12b29bf](https://code.learnta.cn///commit/12b29bf))
-* **package-1:** change content3 ([98fa9c9](https://code.learnta.cn///commit/98fa9c9))
-* **package-1:** change content3 ([8db7325](https://code.learnta.cn///commit/8db7325))
-* **ppp:** change content3 ([3585a08](https://code.learnta.cn///commit/3585a08))
-* **ppp:** change content3 ([4a4e755](https://code.learnta.cn///commit/4a4e755))
-* **ppp,xxx:** change content3 ([0e3dc67](https://code.learnta.cn///commit/0e3dc67))
-* **ppp,xxx:** change content3 ([40df7d8](https://code.learnta.cn///commit/40df7d8))
-* **ppp,xxx:** change content3 ([878802d](https://code.learnta.cn///commit/878802d))
-* **ppp,xxx:** change content3 ([d4c8ba7](https://code.learnta.cn///commit/d4c8ba7))
-* **ppp,xxx:** change content3 ([084dcf1](https://code.learnta.cn///commit/084dcf1))
-* **ppp,xxx:** change content3 ([a7a0328](https://code.learnta.cn///commit/a7a0328))
-* **xxx:** change content3 ([92d54d9](https://code.learnta.cn///commit/92d54d9))
-* **xxx:** change content3 ([322204f](https://code.learnta.cn///commit/322204f))
-* **xxx:** change content3 ([b53045d](https://code.learnta.cn///commit/b53045d))
-* change content3 ([c32a8a4](https://code.learnta.cn///commit/c32a8a4))
-
-
-### Tests
-
-* **ac:** package.json ([f2daed5](https://code.learnta.cn///commit/f2daed5))
-* **app:** package.json ([fff9720](https://code.learnta.cn///commit/fff9720))
-* **config:** package.json ([9668930](https://code.learnta.cn///commit/9668930))
-* **cs:** package.json ([b70fb0e](https://code.learnta.cn///commit/b70fb0e))
-* **LL-683:** package.json ([fd6127b](https://code.learnta.cn///commit/fd6127b))
-* **LL-83:** package.json ([ccf7a21](https://code.learnta.cn///commit/ccf7a21))
-* **LL-83:** package.json ([6bcb454](https://code.learnta.cn///commit/6bcb454))
-* **package.json:** use commitzen ([34fbf65](https://code.learnta.cn///commit/34fbf65))
-* **package.json:** use commitzen ([4c4e514](https://code.learnta.cn///commit/4c4e514))
-
-
-
-## 0.0.4 (2019-07-02)
+# [0.1.0](https://code.learnta.cn/projects/LTA/repos/generator-learnta/compare/947e0f5...v0.1.0) (2019-07-02)
 
 
 ### Bug Fixes
@@ -90,3 +34,6 @@ All notable changes to this project will be documented in this file. See [standa
 * **xxx:** change content3 ([322204f](https://code.learnta.cn/projects/LTA/repos/generator-learnta/commits/322204f))
 * **xxx:** change content3 ([b53045d](https://code.learnta.cn/projects/LTA/repos/generator-learnta/commits/b53045d))
 * change content3 ([c32a8a4](https://code.learnta.cn/projects/LTA/repos/generator-learnta/commits/c32a8a4))
+
+
+
