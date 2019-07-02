@@ -76,7 +76,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged",
+            "pre-commit": "npm run precommit",
             "commit-msg": "henry-validate-commitmsg"
         }
     },
@@ -94,5 +94,6 @@
                 "validate": true
             }
         }
-    }
+    },
+    "test": "1"
 }
