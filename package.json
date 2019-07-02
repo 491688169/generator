@@ -65,7 +65,7 @@
     "husky": {
         "hooks": {
             "pre-commit": "lint-staged",
-            "commitmsg": "validate-commit-msg"
+            "commit-msg": "validate-commit-msg"
         }
     },
     "license": "ISC",
