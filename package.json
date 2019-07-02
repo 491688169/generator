@@ -1,6 +1,6 @@
 {
     "name": "generator-learnta",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "generator-learnta",
     "homepage": "https://code.learnta.cn/projects/LTA/repos/generator-learnta/browse",
     "files": [
@@ -9,11 +9,11 @@
     "keywords": [
         "yeoman-generator"
     ],
-    "test": "1",
     "main": "index.js",
     "author": "qianjin<491688169@qq.com>",
     "devDependencies": {
         "commitizen": "^3.1.1",
+        "conventional-changelog-cli": "^2.0.21",
         "cz-conventional-changelog": "^2.1.0",
         "eslint": "^5.16.0",
         "eslint-config-prettier": "^3.6.0",
