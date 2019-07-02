@@ -1,0 +1,8 @@
+{
+  "scope": {
+    "required": false,
+    "allowed": ["*"],
+    "validate": false,
+    "multiple": false
+  }
+}
