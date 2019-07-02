@@ -30,8 +30,10 @@ function readAllFile(root, reg, negative) {
             });
         } else if (reg !== undefined) {
             if (typeof reg.test === 'function') {
-                if (negative && !reg.test(root)) {
-                    resultArr.push(root);
+                if (negative) {
+                    if (!reg.test(root)) {
+                        resultArr.push(root);
+                    }
                 } else if (reg.test(root)) {
                     resultArr.push(root);
                 }

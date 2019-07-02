@@ -59,7 +59,11 @@
         },
         "rules": {
             "prettier/prettier": "error",
-            "no-negated-condition": 0
+            "no-negated-condition": 0,
+            "max-depth": [
+                "error",
+                5
+            ]
         },
         "plugins": [
             "prettier"
