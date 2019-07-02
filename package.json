@@ -51,7 +51,8 @@
         "precommit": "lint-staged",
         "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && npm run changereposurl && npm run changeissueurl && git add CHANGELOG.md",
         "changereposurl": "replace 'https://code.learnta.cn/scm/lta/' 'https://code.learnta.cn/projects/LTA/repos/' CHANGELOG.md",
-        "changeissueurl": "replace 'https://code.learnta.cn/projects/LTA/repos/generator-learnta/issues/' 'https://plan.learnta.cn/browse/' CHANGELOG.md"
+        "changeissueurl": "replace 'https://code.learnta.cn/projects/LTA/repos/generator-learnta/issues/' 'https://plan.learnta.cn/browse/' CHANGELOG.md",
+        "release": "standard-version"
     },
     "eslintConfig": {
         "extends": [
@@ -92,7 +93,8 @@
                     "config",
                     "app",
                     "ac",
-                    "cs"
+                    "cs",
+                    "release"
                 ],
                 "validate": true
             }
