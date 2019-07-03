@@ -1,6 +1,6 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
-const { execSync } = require('child_process');
+// const { execSync } = require('child_process');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 
@@ -92,7 +92,7 @@ class LG extends Generator {
                 ${chalk.green(startCommand)}
             \n
         `);
-        // TODO:可能涉及进程相关知识，需要进一步处理
+        // TODO: 可能涉及进程相关知识，需要进一步处理
         // execSync(`cd ${this.fullname}`, function(error, stdout, stderr) {
         //     console.log('error', error);
         //     if (error) {

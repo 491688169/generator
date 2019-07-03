@@ -15,7 +15,7 @@ module.exports = class extends Generator {
     async initializing() {
         const done = this.async();
         this.type = TYPES.PRODUCT_REACT.value;
-        let keywords = undefined;
+        let keywords;
         try {
             keywords = (await this.fs.readJSON('./package.json')).keywords;
         } catch (error) {
@@ -27,7 +27,7 @@ module.exports = class extends Generator {
             const generatorType = TYPES[TYPES_KEYS[i]];
             if (includes(keywords, generatorType.keywords)) {
                 this.type = generatorType.value;
-                // break or continue 都会退出 generator command process
+                // Break or continue 都会退出 generator command process
                 return done(); // 退出当前生命周期函数，进入下一个
             }
         }

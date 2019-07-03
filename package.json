@@ -13,7 +13,7 @@
     "author": "qianjin<491688169@qq.com>",
     "devDependencies": {
         "commitizen": "^3.1.1",
-        "conventional-changelog-cli": "^2.0.21",
+        "conventional-changelog": "^3.1.8",
         "cz-conventional-changelog": "^2.1.0",
         "eslint": "^5.16.0",
         "eslint-config-prettier": "^3.6.0",
@@ -32,7 +32,7 @@
     },
     "dependencies": {
         "chalk": "^2.4.2",
-        "henry-yo-merge": "0.0.2",
+        "henry-yo-merge": "0.0.3",
         "yeoman-generator": "^4.0.1",
         "yosay": "^2.0.2"
     },
@@ -63,12 +63,14 @@
             "node": true
         },
         "rules": {
+            "capitalized-comments": 0,
             "prettier/prettier": "error",
             "no-negated-condition": 0,
             "max-depth": [
                 "error",
                 5
-            ]
+            ],
+            "no-warning-comments": 0
         },
         "plugins": [
             "prettier"
@@ -76,7 +78,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged",
+            "pre-commit": "npm run precommit",
             "commit-msg": "henry-validate-commitmsg"
         }
     },
@@ -89,12 +91,7 @@
             "scope": {
                 "required": true,
                 "allowed": [
-                    "^[A-Z]+-[0-9]+$",
-                    "config",
-                    "app",
-                    "ac",
-                    "cs",
-                    "release"
+                    "^[A-Z]+-[0-9]+$"
                 ],
                 "validate": true
             }
