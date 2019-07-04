@@ -71,7 +71,11 @@ class AC extends Generator {
         this.answer = { ...this.answer, name: this.answer.name.replace(/\s+/g, '') };
     }
 
-    async writing() {
+    writing() {
+        this._generatorComponent();
+    }
+
+    async _generatorComponent() {
         const componentName = await this._checkIfExist();
         switch (this.type) {
             case TYPES.PKG_REACT.value:
@@ -94,12 +98,14 @@ class AC extends Generator {
         );
 
         this.fs.write(this.destinationPath(`./src/${componentName}/index.scss`), '');
+
         this.fs.append(
             this.destinationPath(`./src/index.ts`),
             `export { default as ${initialCapital(
                 componentName
             )} } from './${componentName}/index';`
         );
+
         this.fs.copyTpl(
             this.templatePath('./package_react/stories.tsx'),
             this.destinationPath(`./stories/${componentName}.stories.tsx`),
@@ -108,13 +114,27 @@ class AC extends Generator {
     }
 
     _generatorProductComponent(componentName) {
-        const files = readAllFile(this.templatePath('./product_react'), /\.ejs$/, true);
-        this.fs.copy(files, this.destinationPath(`./src/${this.answer.type}/${componentName}`));
-        this.fs.copyTpl(
-            this.templatePath('./product_react/index.js.ejs'),
-            this.destinationPath(`./src/${this.answer.type}/${componentName}/index.js`),
-            { componentName }
-        );
+        const componentRootPath = this.templatePath('./product_react');
+        const { match, unMatch } = readAllFile(componentRootPath, /\.ejs$/);
+        match.forEach(template => {
+            const destinationPath = path.relative(componentRootPath, template);
+            const relativeDestinationFile = destinationPath.replace(/(.ejs)$/, '');
+
+            this.fs.copyTpl(
+                template,
+                this.destinationPath(
+                    `./src/${this.answer.type}/${componentName}/${relativeDestinationFile}`
+                ),
+                { componentName }
+            );
+        });
+
+        if (unMatch && unMatch.length > 0) {
+            this.fs.copy(
+                unMatch,
+                this.destinationPath(`./src/${this.answer.type}/${componentName}`)
+            );
+        }
     }
 
     _checkIfExist() {
