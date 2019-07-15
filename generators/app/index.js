@@ -64,12 +64,28 @@ class LG extends Generator {
         match.forEach(template => {
             const destinationPath = path.relative(projectRootPath, template);
             const relativeDestinationFile = destinationPath.replace(/(.ejs)$/, '');
+            const pathData = path.parse(relativeDestinationFile);
+            if (pathData.name[0] === '_') {
+                console.log();
 
-            this.fs.copyTpl(
-                template,
-                this.destinationPath(`./${fullname}/${relativeDestinationFile}`),
-                { name }
-            );
+                this.fs.copy(
+                    template,
+                    this.destinationPath(
+                        `./${fullname}/${path.format({
+                            ...pathData,
+                            base: pathData.name.substring(1) + '.ejs',
+                            ext: '.ejs',
+                            name: pathData.name.substring(1),
+                        })}`
+                    )
+                );
+            } else {
+                this.fs.copyTpl(
+                    template,
+                    this.destinationPath(`./${fullname}/${relativeDestinationFile}`),
+                    { name }
+                );
+            }
         });
 
         if (unMatch && unMatch.length > 0) {
