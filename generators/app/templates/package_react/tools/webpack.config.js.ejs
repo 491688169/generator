@@ -4,16 +4,16 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const srcPath = path.join(__dirname, '..', 'src');
-const enrtyPath = path.join(srcPath, 'index.ts');
+const entryPath = path.join(srcPath, 'index.ts');
 const distPath = path.join(__dirname, '..', 'dist');
 
 module.exports = {
     mode: 'production',
-    entry: ['@babel/polyfill', enrtyPath],
+    entry: ['@babel/polyfill', entryPath],
     output: {
         path: distPath,
-        filename: 'learnta-libs.min.js',
-        library: 'libs',
+        filename: 'learnta-<%= name %>.min.js',
+        library: '<%= name %>',
         libraryTarget: 'umd',
     },
     externals: {

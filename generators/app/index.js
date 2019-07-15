@@ -1,8 +1,10 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
-// const { execSync } = require('child_process');
 const fs = require('fs');
+const path = require('path');
 const mkdirp = require('mkdirp');
+
+const { readAllFile } = require('../utils');
 
 class LG extends Generator {
     async prompting() {
@@ -54,9 +56,27 @@ class LG extends Generator {
         this.log(`${type} name is ${fullname}`);
 
         mkdirp.sync(`${fullname}`);
-        this.fs.copy(this.templatePath(templatePath), this.destinationPath(`./${fullname}`), {
-            globOptions: { dot: true },
+
+        const projectRootPath = this.templatePath(templatePath);
+
+        const { match, unMatch } = readAllFile(projectRootPath, /\.ejs$/);
+
+        match.forEach(template => {
+            const destinationPath = path.relative(projectRootPath, template);
+            const relativeDestinationFile = destinationPath.replace(/(.ejs)$/, '');
+
+            this.fs.copyTpl(
+                template,
+                this.destinationPath(`./${fullname}/${relativeDestinationFile}`),
+                { name }
+            );
         });
+
+        if (unMatch && unMatch.length > 0) {
+            this.fs.copy(unMatch, this.destinationPath(`./${fullname}`), {
+                globOptions: { dot: true },
+            });
+        }
     }
 
     install() {
