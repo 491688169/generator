@@ -1,9 +1,10 @@
 'use strict';
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
+const path = require('path');
 const { Conflicter, Adapter } = require('henry-yo-merge');
 const { TYPES } = require('../constants');
-const { includes } = require('../utils');
+const { includes, readAllFile } = require('../utils');
 
 module.exports = class extends Generator {
     constructor(args, opts) {
@@ -17,7 +18,8 @@ module.exports = class extends Generator {
         this.type = TYPES.PRODUCT_REACT.value;
         let keywords;
         try {
-            keywords = (await this.fs.readJSON('./package.json')).keywords;
+            this.packageJSON = await this.fs.readJSON('./package.json');
+            keywords = this.packageJSON.keywords;
         } catch (error) {
             this.log(`${chalk.red(error)}`);
         }
@@ -34,6 +36,10 @@ module.exports = class extends Generator {
     }
 
     writing() {
+        this._syncConfigFiles();
+    }
+
+    _syncConfigFiles() {
         switch (this.type) {
             case TYPES.PKG_REACT.value:
                 this._syncPKG();
@@ -48,15 +54,34 @@ module.exports = class extends Generator {
     }
 
     _syncPKG() {
-        this.fs.copy(this.templatePath('./package_react/'), this.destinationPath('./'), {
-            globOptions: { dot: true },
-        });
+        const projectRootPath = this.templatePath('./package_react');
+        this._syncEJSFile(projectRootPath);
     }
 
     _syncPRODUCT() {
-        this.fs.copy(this.templatePath('./product_react/'), this.destinationPath('./'), {
-            globOptions: { dot: true },
+        const projectRootPath = this.templatePath('./product_react');
+        this._syncEJSFile(projectRootPath);
+    }
+
+    _syncEJSFile(projectRootPath) {
+        const { match, unMatch } = readAllFile(projectRootPath, /\.ejs$/);
+
+        match.forEach(template => {
+            const destinationPath = path.relative(projectRootPath, template);
+            const relativeDestinationFile = destinationPath.replace(/(.ejs)$/, '');
+            const regexName = /^fe_(.+?)((_pkg)?)$/g;
+            regexName.test(this.packageJSON.name);
+            const name = RegExp.$1 || '';
+            this.fs.copyTpl(template, this.destinationPath(`./${relativeDestinationFile}`), {
+                name,
+            });
         });
+
+        if (unMatch && unMatch.length > 0) {
+            this.fs.copy(unMatch, this.destinationPath('./'), {
+                globOptions: { dot: true },
+            });
+        }
     }
 
     end() {

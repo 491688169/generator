@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 
 module.exports = ({ config }) => {
@@ -11,18 +12,11 @@ module.exports = ({ config }) => {
                         presets: [['react-app', { flow: false, typescript: true }]],
                     },
                 },
-                // {
-                //     loader: require.resolve('awesome-typescript-loader'),
-                // },
                 // Optional
                 {
                     loader: require.resolve('react-docgen-typescript-loader'),
                 },
             ],
-        },
-        {
-            test: /\.css$/,
-            use: ['style-loader', 'css-loader'],
         },
         {
             test: /\.s(a|c)ss$/,
@@ -31,21 +25,12 @@ module.exports = ({ config }) => {
                 {
                     loader: 'css-loader',
                     options: {
+                        modules: {
+                            localIdentName: '[name]-[local]-[hash:base64:6]',
+                        },
                         sourceMap: true,
-                        modules: true,
-                        localIdentName: '[name]-[local]-[hash:base64:6]',
                     },
                 },
-                // {
-                //     loader: 'typings-for-css-modules-loader',
-                //     options: {
-                //         modules: true,
-                //         namedExport: true,
-                //         camelCase: true,
-                //         minimize: true,
-                //         localIdentName: '[local]_[hash:base64:5]',
-                //     },
-                // },
                 {
                     loader: 'sass-loader',
                     options: { importLoaders: 1 },
@@ -63,6 +48,10 @@ module.exports = ({ config }) => {
         }
     );
     config.resolve.extensions.push('.ts', '.tsx');
+    config.resolve.alias = {
+        ...config.resolve.alias,
+        $src: path.join(__dirname, '../src'),
+    };
     config.plugins.push(
         new webpack.ProvidePlugin({
             $: 'jquery',
