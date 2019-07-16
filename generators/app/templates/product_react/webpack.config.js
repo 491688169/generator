@@ -42,8 +42,8 @@ const rootDir = path.resolve(__dirname);
 const distDir = path.join(rootDir, 'dist');
 const srcDir = path.join(rootDir, 'src');
 const staticDir = path.join(srcDir, 'static');
-const productDir = path.join(srcDir, 'pages');
-const productEntry = path.join(productDir, 'index.js');
+const pageDir = path.join(srcDir, 'pages');
+const pageEntry = path.join(pageDir, 'index.js');
 
 const envVariables = Object.keys(env).reduce((res, k) => {
     res[`__${k}__`] = JSON.stringify(env[k]);
@@ -56,9 +56,9 @@ const wp = {
         ? [
               `webpack-dev-server/client?${env.FRONTEND}`, // 资源服务器地址
               'webpack/hot/only-dev-server',
-              productEntry,
+              pageEntry,
           ]
-        : [productEntry],
+        : [pageEntry],
     output: {
         filename: env.DEV ? '[name].js' : '[name]-[chunkhash:8].js',
         publicPath: env.DEV ? env.FRONTEND : `${cdnUrl}/staSrc/${env.PRODUCT}/${env.TARGET}/`,
@@ -224,7 +224,7 @@ const wp = {
             chunkFilename: env.DEV ? '[id].css' : '[id].[hash].css',
         }),
         new HtmlWebpackPlugin({
-            template: path.resolve(productDir, 'index.ejs'),
+            template: path.resolve(pageDir, 'index.ejs'),
             inject: false,
             hash: !env.DEV,
             ...envVariables,
