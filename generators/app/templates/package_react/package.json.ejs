@@ -1,9 +1,9 @@
 {
-    "name": "fe_taskcard_pkg",
+    "name": "fe_<%= name %>_pkg",
     "version": "0.0.1",
-    "description": "前端任务卡组件库",
+    "description": "learnta-<%= name %> 组件库",
     "main": "build/lib/index.js",
-    "modules": "dist/learnta-taskcard.min.js",
+    "modules": "dist/learnta-<%= name %>.min.js",
     "types": "dist/index.d.ts",
     "scripts": {
         "test": "jest --coverage",
@@ -52,7 +52,7 @@
         "babel-jest": "^24.8.0",
         "babel-loader": "^8.0.6",
         "babel-plugin-require-context-hook": "^1.0.0",
-        "css-loader": "^2.1.1",
+        "css-loader": "^3.0.0",
         "enzyme": "^3.9.0",
         "enzyme-adapter-react-16": "^1.13.2",
         "eslint-loader": "^2.1.2",

@@ -8,7 +8,7 @@ export default class <%= componentName %> extends React.PureComponent<Props> {
     render() {
         return (
             <div>
-                
+                hello, <%= componentName %>
             </div>
         );
     }

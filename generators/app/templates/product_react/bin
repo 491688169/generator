@@ -1,0 +1,150 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const { execSync } = require('child_process');
+const os = require('os');
+
+const program = require('commander');
+const axios = require('axios');
+
+const rc = require('rc');
+
+const uploadrc = rc('upload');
+const deployrc = rc('deploy');
+
+const packageLib = require('./package.json');
+const { handleStaticSrc } = require('./buildTools');
+
+program
+    .version(packageLib.version)
+    .usage('./bin [options] <command>')
+    .option('-h, --host <host>', '指定本地开发用的host，默认是localhost')
+    .option('-t, --target <target>', '指定打包环境，默认是t1')
+    .option(
+        '-b, --backend <backend>',
+        '指定后台接口所在的服务器的域名或ip地址，默认是t1.learnta.cn'
+    )
+    .option('--port <port>', '指定开发用的端口号')
+    .option('--hot <hot>', '是否启用模块热更新功能，默认是启用')
+    .option('--https <https>', '是否启动Https，默认false')
+    .option('-m, --mock <mock>', '指定是否使用mock，默认是false')
+    .option('--debug <debug>', '是否开启移动端debug模式，默认是false');
+
+program
+    .command('dev')
+    .description('开发者模式')
+    .action(devCmd);
+
+program
+    .command('release')
+    .description('生产模式')
+    .action(releaseCmd);
+
+program
+    .command('build')
+    .description('构建模式')
+    .action(buildCmd);
+
+program
+    .command('deploy')
+    .description('发布模式')
+    .action(deployCmd);
+
+// generate manifest_custom for static
+program.command('gms').action(generateManifest);
+
+program.parse(process.argv);
+
+async function generateManifest() {
+    await handleStaticSrc('src/static/');
+}
+
+function devCmd() {
+    setEnvVariable();
+    process.env.ENV = 'development';
+    process.env.NODE_ENV = 'development';
+    if (program.host) process.env.HOST = program.host === 'ip' ? getIpAddress() : program.env.HOST;
+    if (program.port) process.env.PORT = program.port;
+    execSync('npm run dev', { stdio: 'inherit' });
+}
+
+function buildCmd() {
+    setEnvVariable();
+    process.env.ENV = 'production';
+    process.env.NODE_ENV = 'production';
+
+    handleStaticSrc('src/static/');
+
+    execSync('npm run build:webpack', { stdio: 'inherit' });
+}
+
+async function releaseCmd() {
+    await setPrivateVariable();
+    buildCmd();
+    require('upload_qianjin').upload();
+    resetUploadrc();
+}
+
+function deployCmd() {
+    const { target = 't1' } = program;
+    const token = deployrc.token[target];
+    const gitBranch = execSync('git rev-parse --abbrev-ref HEAD')
+        .toString()
+        .replace(/\s+/, '');
+
+    if (!token) throw new Error('token not found. Please check deployrc');
+
+    axios
+        .post(
+            `https://deploy:b765710d7a69f8c41a57c7ef2f9c7988@deploy.learnta.cn/generic-webhook-trigger/invoke?token=${token}`,
+            {
+                ref: gitBranch,
+            }
+        )
+        .then(() => {
+            console.log(`branch: ${gitBranch},deploy success!`);
+        });
+}
+
+function setEnvVariable() {
+    if (program.hot) {
+        process.env.HOT = !!program.hot;
+    }
+
+    process.env.TARGET = program.target || 't1';
+    process.env.BACKEND_HOST = program.backend;
+    // 值为：boolean
+    process.env.HTTPS = program.https === 'true';
+    process.env.MOCK = program.mock === 'true';
+    process.env.DEBUG = program.mock === 'true';
+}
+
+function getIpAddress() {
+    console.log('getIpAddress');
+    let ipAddress = 'localhost';
+    const interfaces = os.networkInterfaces();
+    Object.keys(interfaces).forEach(devName => {
+        const deviceInfo = interfaces[devName];
+        for (let i = 0; i < deviceInfo.length; i += 1) {
+            const alias = deviceInfo[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                ipAddress = alias.address;
+            }
+        }
+    });
+    return ipAddress;
+}
+
+function setPrivateVariable() {
+    return new Promise(resolve => {
+        fs.readFile('/app/config/learnta/fe/keystore.rc', (err, data) => {
+            if (err) throw err;
+            const result = JSON.stringify({ ...JSON.parse(data).upload.ali, ...uploadrc });
+            fs.writeFile('./.uploadrc', result, () => resolve());
+        });
+    });
+}
+
+function resetUploadrc() {
+    fs.writeFile('./.uploadrc', uploadrc, () => console.log('reset .uploadrc success'));
+}

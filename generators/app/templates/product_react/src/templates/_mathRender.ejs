@@ -1,0 +1,17 @@
+<script src="/static/mathquill/mathquill.js" ></script>
+<script type="text/javascript">
+        // TODO: Material V3.0 删除后测试这段是否有用
+        // MathQuil config
+        try{
+            window.MQ = MathQuill.getInterface(2);
+            window.MQ.config({ spaceBehavesLikeTab: true });
+        }catch (e) {
+            console.log(e);
+        }
+</script>
+<script src="/static/qingyou_math.js"></script>
+<script src="https://frontend-alioss.learnta.com/lib/MathJax-master/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="https://extlib-cdn.learnta.cn/MathJax-master/jax/output/CommonHTML/autoload/mtable.js?V=2.7.4"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [["$", "$"],["\\(", "\\)"]]}})
+</script>

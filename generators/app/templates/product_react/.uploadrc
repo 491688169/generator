@@ -1,0 +1,13 @@
+{
+  "uploader": "ali",
+  "region": "oss-cn-hangzhou",
+  "bucket": "learnta-frontend",
+  "url": "https://frontend-alioss.learnta.com",
+  "dist": "dist",
+  "prefix": "`staSrc/${process.env.PRODUCT}/${process.env.TARGET}/`",
+  "ignore": [
+    ".DS_Store",
+    "report.html",
+    "index.html"
+  ]
+}
