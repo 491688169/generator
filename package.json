@@ -1,6 +1,6 @@
 {
-    "name": "generator-learnta",
-    "version": "0.2.0",
+    "name": "@learnta_npm/generator-learnta",
+    "version": "1.0.2",
     "description": "generator-learnta",
     "homepage": "https://code.learnta.cn/projects/LTA/repos/generator-learnta/browse",
     "files": [
@@ -10,7 +10,7 @@
         "yeoman-generator"
     ],
     "main": "index.js",
-    "author": "qianjin<491688169@qq.com>",
+    "author": "learnta inc",
     "devDependencies": {
         "commitizen": "^3.1.1",
         "conventional-changelog": "^3.1.8",
@@ -90,10 +90,7 @@
         "henry-validate-commitmsg": {
             "scope": {
                 "required": true,
-                "allowed": [
-                    "^[A-Z]+-[0-9]+$"
-                ],
-                "validate": true
+                "validate": false
             }
         }
     }
