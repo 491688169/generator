@@ -101,7 +101,7 @@ export default function fetchConf({
 }
 
 function replaceParams(url, urlParams) {
-    const urlReplaceKeys = getMathKeys(url, []);
+    const urlReplaceKeys = getMatchKeys(url, []);
     let urlMod = url;
 
     for (let i = 0; i < urlReplaceKeys.length; i += 1) {
@@ -113,7 +113,7 @@ function replaceParams(url, urlParams) {
     return urlMod;
 }
 
-function getMathKeys(url, matchKeys) {
+function getMatchKeys(url, matchKeys) {
     const reg = /\{(\w+)\}/g;
     let urlReplaceKeys = reg.exec(url);
     while (urlReplaceKeys) {
